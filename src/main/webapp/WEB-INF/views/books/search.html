@@ -8,24 +8,27 @@
 
 <h2>What book are you looking for:</h2>
 
-<form th:method="GET" th:action="@{/books/search}">
+<form th:method="POST" th:action="@{/books/search}">
     <label for="input">Enter book name:</label>
     <input id="input" type="search" th:name="keywords">
     <br>
     <input type="submit" value="Find">
-    <br><br>
-    <div th:unless="${keywords==null}">
-        <div th:each="book:${foundBooks}">
-            <p th:text="${book.getName()}+','+${book.getAuthor()}+','+${book.getYear()}">VALUE</p>
-            <p th:if="${book.getOwner()==null}" th:text="'Book is available'">VALUE</p>
-            <p th:unless="${book.getOwner()==null}" th:text="'Book is now at: ' + ${book.getOwner().getName()}">VALUE</p>
-        </div>
-        <p th:if="${foundBooks.isEmpty()}" th:text="'No such book'"></p>
-    </div>
-
-
 </form>
 
+<div th:if="${foundBooks}">
+    <div th:if="${foundBooks.isEmpty()}">
+        <p>No such books</p>
+    </div>
+
+    <div th:each="book:${foundBooks}">
+        <p th:text="${book.getName()}+','+${book.getAuthor()}+','+${book.getYear()}">VALUE</p>
+        <p th:if="${book.getOwner()==null}" th:text="'Book is available'">VALUE</p>
+        <p th:unless="${book.getOwner()==null}" th:text="'Book is now at: ' + ${book.getOwner().getName()}">VALUE</p>
+    </div>
+</div>
+
+<br>
+<a href="/books">All books</a>
 
 
 

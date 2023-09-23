@@ -13,13 +13,10 @@
 <div th:unless="${person.getBooks().isEmpty()}">
     <p>Books:</p>
             <div th:each="book:${person.getBooks()}">
-                <div th:if="${book.isOverdue()}" style="color: red">
-                    <p th:href="@{/books/{book_id}(book_id=${book.getBook_id()})}"
-                       th:text="${book.getName()}+','+${book.getAuthor()}+','+${book.getYear()}">VALUE</p>
-                </div>
-                <div th:unless="${book.isOverdue()}" >
-                    <p th:href="@{/books/{book_id}(book_id=${book.getBook_id()})}"
-                       th:text="${book.getName()}+','+${book.getAuthor()}+','+${book.getYear()}">VALUE</p>
+
+                <div>
+                    <p th:text="${book.getName()}+','+${book.getAuthor()}+','+${book.getYear()}"
+                    th:style="${book.isOverdue()}?'color:red':'color:black'"></p>
                 </div>
 
             </div>

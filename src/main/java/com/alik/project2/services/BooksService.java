@@ -75,7 +75,7 @@ public class BooksService {
         if (Objects.nonNull(book)) {
             book.setOwner(person);
             book.setBookAssigned(new Date());
-            booksRepository.save(book);
+//            booksRepository.save(book);
         }
     }
 
@@ -85,7 +85,7 @@ public class BooksService {
         if (Objects.nonNull(book)) {
             book.setOwner(null);
             book.setBookAssigned(null);
-            booksRepository.save(book);
+//            booksRepository.save(book);
         }
     }
 
@@ -99,7 +99,7 @@ public class BooksService {
         return booksRepository.findAll(pr).getContent();
     }
 
-    public List<Book> findByNameStartingWith(String letters){
-        return booksRepository.findByNameStartingWith(letters);
+    public List<Book> findByNameStartingWith(String keywords){
+        return booksRepository.findByNameStartingWith(keywords);
     }
 }

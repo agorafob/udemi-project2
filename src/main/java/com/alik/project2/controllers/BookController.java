@@ -21,7 +21,7 @@ public class BookController {
     BookValidator bookValidator;
 
     @Autowired
-    public BookController(BooksService booksService, PeopleService peopleService,BookValidator bookValidator ) {
+    public BookController(BooksService booksService, PeopleService peopleService, BookValidator bookValidator) {
         this.booksService = booksService;
         this.peopleService = peopleService;
         this.bookValidator = bookValidator;
@@ -29,10 +29,10 @@ public class BookController {
 
     @GetMapping()
     public String index(Model model,
-                        @RequestParam(name = "page",required = false) Integer page,
+                        @RequestParam(name = "page", required = false) Integer page,
                         @RequestParam(name = "books_per_page", required = false) Integer books_per_page,
-                        @RequestParam(name = "sort_by_year", required = false)Boolean sort_by_year) {
-        model.addAttribute("books", booksService.index(page,books_per_page,sort_by_year));
+                        @RequestParam(name = "sort_by_year", required = false) Boolean sort_by_year) {
+        model.addAttribute("books", booksService.index(page, books_per_page, sort_by_year));
         return "/books/index";
     }
 
@@ -70,9 +70,9 @@ public class BookController {
     public String update(@ModelAttribute("book") @Valid Book book,
                          BindingResult bindingResult, @PathVariable("book_id") int book_id) {
         bookValidator.validate(book, bindingResult);
-            if (bindingResult.hasErrors()) {
-                return "/books/edit";
-            }
+        if (bindingResult.hasErrors()) {
+            return "/books/edit";
+        }
         booksService.update(book_id, book);
         return "redirect:/books/{book_id}";
     }
@@ -91,18 +91,20 @@ public class BookController {
     }
 
     @PatchMapping("/{book_id}/releaseBook")
-    public String releaseBook(@PathVariable("book_id") int book_id){
+    public String releaseBook(@PathVariable("book_id") int book_id) {
         booksService.releaseBook(book_id);
         return "redirect:/books/{book_id}";
     }
 
     @GetMapping("/search")
-    public String find(@RequestParam(name="keywords", required = false) String keywords,Model model,
-                       @ModelAttribute("book") Book book){
-        model.addAttribute("keywords",keywords);
-        model.addAttribute("foundBooks", booksService.findByNameStartingWith(keywords));
-        return "/books/search";
+    public String search() {
+        return "books/search";
     }
 
+    @PostMapping("/search")
+    public String find(Model model, @RequestParam("keywords") String keywords) {
+        model.addAttribute("foundBooks",booksService.findByNameStartingWith(keywords));
+        return "books/search";
+    }
 
 }
